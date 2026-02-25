@@ -8,11 +8,12 @@ import jakarta.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.List;
 
-public record PedidoRequestDTO(Long id,
+public record PedidoRequestDTO(Long idPedido,
+                               Long idCliente,
                                Pagamento pagamento,
                                Double precoTotal,
                                Date dataHora,
-                               Produto produto,
-                               @NotBlank(message = "Lista esta vazia")
+                               Long idEndereco,
+
                                List<ItensPedido> pedidoList) {
 }

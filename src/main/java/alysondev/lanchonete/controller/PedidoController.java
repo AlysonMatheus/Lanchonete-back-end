@@ -10,28 +10,35 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/pedido")
 
 public class PedidoController {
-@Autowired
+    @Autowired
     private PedidoService pedidoService;
 
     @PostMapping("/adicionar")
-    private ResponseEntity<PedidoResponseDTO> adicionar(@RequestBody PedidoRequestDTO pedidoRequestDTO) {
+    public ResponseEntity<PedidoResponseDTO> adicionar(@RequestBody PedidoRequestDTO pedidoRequestDTO) {
         var pedido = pedidoService.criarPedido(pedidoRequestDTO);
         return ResponseEntity.ok(pedido);
     }
 
     @PostMapping("/cancelar")
-    private void cancelar(@RequestBody Long id) {
+    public void cancelar(@RequestBody Long id) {
         pedidoService.cancelarPedido(id);
     }
 
     @GetMapping("/listar/{id}")
-    public ResponseEntity<List<PedidoResponseDTO>> listarPorCliente(@RequestBody @RequestParam Long id) {
+    public ResponseEntity<List<PedidoResponseDTO>> listarPorCliente(@PathVariable Long id) {
         var buscar = pedidoService.listarPedidosCliente(id);
 
         return ResponseEntity.ok(buscar);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PedidoResponseDTO>> listarTodos() {
+        var listar = pedidoService.listarTodos();
+        return ResponseEntity.ok(listar);
     }
 }

@@ -31,12 +31,12 @@ public class Produto {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "categoria")
-    private Categoria categoria;//CRIAR ENUM FUTURAMENTE
+    private Categoria categoria;
 
     @Column(name = "preco")
     private BigDecimal preco;
     @Column(name = "ativo", nullable = false)
-    private boolean ativo = false;
+    private Boolean  ativo = true;
 
 
 public Produto(ProdutoRequestDTO produtoRequestDTO){

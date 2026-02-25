@@ -1,5 +1,6 @@
 package alysondev.lanchonete.entity;
 
+import alysondev.lanchonete.dtos.request.EnderecoRequestDTO;
 import alysondev.lanchonete.dtos.request.PedidoRequestDTO;
 import alysondev.lanchonete.enums.Pagamento;
 import alysondev.lanchonete.enums.Status;
@@ -11,7 +12,6 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Setter
@@ -42,14 +42,18 @@ public class Pedido {
     private Status status;
     @Column(name = "data_hora")
     private LocalDateTime dataHora;
+    @JoinColumn(name = "id_endereco")
+    @ManyToOne
+    private Endereco endereco;
 
-    public Pedido(Cliente cliente, PedidoRequestDTO pedidoRequestDTO, List<ItensPedido> itensPedidos) {
+    public Pedido(Cliente cliente, PedidoRequestDTO pedidoRequestDTO, List<ItensPedido> itensPedidos, Endereco endereco) {
 
         this.setCliente(cliente);
         this.setPagamento(pedidoRequestDTO.pagamento());
         this.setDataHora(LocalDateTime.now());
         this.setItensPedidos(itensPedidos);
         this.setStatus(Status.PENDENTE);
+        this.setEndereco(endereco);
 
         itensPedidos.stream().forEach(i -> i.setPedido(this));
         BigDecimal total = itensPedidos.stream().map(i -> i.getPrecoUnitario().multiply(BigDecimal.valueOf(i.getQuantidade()))).reduce(BigDecimal.ZERO, BigDecimal::add);

@@ -1,6 +1,5 @@
 package alysondev.lanchonete.controller;
 
-import alysondev.lanchonete.dtos.request.ClienteRequestDTO;
 import alysondev.lanchonete.dtos.request.EnderecoRequestDTO;
 import alysondev.lanchonete.dtos.response.EnderecoResponseDTO;
 
@@ -10,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/endereco")
 public class EnderecoController {
@@ -31,10 +30,10 @@ public class EnderecoController {
         return ResponseEntity.ok(list);
     }
 
-    @GetMapping("/{id}")
-    private ResponseEntity<EnderecoResponseDTO> listarporID(@PathVariable Long id) {
-        var endereco = enderecoService.listarporid(id);
-        return ResponseEntity.ok(endereco);
+    @GetMapping("/cliente/{clienteId}")
+    public ResponseEntity<List<EnderecoResponseDTO>> listarPorCliente(@PathVariable Long clienteId) {
+        List<EnderecoResponseDTO> lista = enderecoService.listarPorCliente(clienteId);
+        return ResponseEntity.ok(lista);
     }
 
     @DeleteMapping("/{id}")

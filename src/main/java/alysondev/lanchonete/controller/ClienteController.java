@@ -9,27 +9,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController()
-@RequestMapping("/clientes")
+@RequestMapping("/cliente")
+
 public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
     @PostMapping("/cadastrar")
-    private ResponseEntity<ClienteResponseDTO> cadastrar(@Valid @RequestBody ClienteRequestDTO clienteRequestDTO) {
+    public ResponseEntity<ClienteResponseDTO> cadastrar( @Valid @RequestBody ClienteRequestDTO clienteRequestDTO) {
         var cliente = clienteService.cadastrar(clienteRequestDTO);
         return ResponseEntity.ok(cliente);
     }
 
     @PutMapping("/editar/{id}")
-    private ResponseEntity<ClienteResponseDTO> editar(@Valid @PathVariable @RequestBody Long id, ClienteRequestDTO clienteRequestDTO) {
+    public ResponseEntity<ClienteResponseDTO> editar( @PathVariable  Long id,@Valid @RequestBody ClienteRequestDTO clienteRequestDTO) {
         var cliente = clienteService.editar(id, clienteRequestDTO);
         return ResponseEntity.ok(cliente);
     }
 
     @GetMapping
-    private ResponseEntity<List<ClienteResponseDTO>> listarTodos() {
+    public ResponseEntity<List<ClienteResponseDTO>> listarTodos() {
         List<ClienteResponseDTO> listar = clienteService.listar();
         return ResponseEntity.ok(listar);
     }

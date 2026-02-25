@@ -22,8 +22,9 @@ public class ProdutoService {
     public ProdutoResponseDTO criar(ProdutoRequestDTO produtoRequestDTO) {
 
         Produto produto = new Produto(produtoRequestDTO);
-        produtoRepository.save(produto);
         produto.setAtivo(true);
+        produtoRepository.save(produto);
+
         return new ProdutoResponseDTO(produto);
     }
     @Transactional

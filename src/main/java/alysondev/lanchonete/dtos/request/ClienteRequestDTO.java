@@ -1,11 +1,11 @@
 package alysondev.lanchonete.dtos.request;
 
 
-import alysondev.lanchonete.entity.Cliente;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import java.util.List;
+
 
 public record ClienteRequestDTO(
         @NotBlank(message = "Nome é obrigatorio")

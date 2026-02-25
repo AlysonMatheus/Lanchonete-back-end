@@ -5,7 +5,7 @@ import alysondev.lanchonete.enums.Categoria;
 
 import java.math.BigDecimal;
 
-public record ProdutoResponseDTO( Long id ,String nome, Categoria categoria, String ingredientes, BigDecimal preco, boolean ativo) {
+public record ProdutoResponseDTO( Long id ,String nome, Categoria categoria, String ingredientes, BigDecimal preco, Boolean ativo) {
     public ProdutoResponseDTO(Produto produto) {
         this(
                 produto.getId(),
@@ -13,7 +13,7 @@ public record ProdutoResponseDTO( Long id ,String nome, Categoria categoria, Str
                 produto.getCategoria(),
                 produto.getIngredientes(),
                 produto.getPreco(),
-                produto.isAtivo()
+                produto.getAtivo()
         );
 
     }

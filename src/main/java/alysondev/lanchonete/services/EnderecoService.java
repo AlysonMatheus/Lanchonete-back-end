@@ -33,10 +33,9 @@ public class EnderecoService {
 
     }
 
-    public EnderecoResponseDTO listarporid(Long id) {
-        Endereco lista = enderecoRepository.findById(id).orElseThrow(() -> new RuntimeException("Endereco não econtrado"));
-        return new EnderecoResponseDTO(lista);
-
+    public List<EnderecoResponseDTO> listarPorCliente(Long clienteId) {
+        List<Endereco> lista = enderecoRepository.findByClienteId(clienteId);
+        return lista.stream().map(EnderecoResponseDTO::new).toList();
     }
 
     public void excluir(Long id) {

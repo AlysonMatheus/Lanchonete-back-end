@@ -7,7 +7,7 @@ public record EnderecoResponseDTO( Long id ,String rua, String bairro, String ci
         this(endereco.getId(),
                 endereco.getRua(),
                 endereco.getBairro(),
-                endereco.getRua(),
+                endereco.getCidade(),
                 endereco.getNumero(),
                 endereco.getCliente().getId()
         );

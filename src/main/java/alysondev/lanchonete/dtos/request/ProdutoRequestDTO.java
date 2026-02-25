@@ -5,14 +5,14 @@ import alysondev.lanchonete.enums.Categoria;
 
 import java.math.BigDecimal;
 
-public record ProdutoRequestDTO(String nome, String ingredientes, Categoria categoria, BigDecimal preco, boolean ativo ) {
+public record ProdutoRequestDTO(String nome, String ingredientes, Categoria categoria, BigDecimal preco, Boolean  ativo ) {
     public ProdutoRequestDTO (Produto produto){
         this(
                 produto.getNome(),
                 produto.getIngredientes(),
                 produto.getCategoria(),
                 produto.getPreco(),
-                produto.isAtivo()
+                produto.getAtivo()
         );
     }
 }

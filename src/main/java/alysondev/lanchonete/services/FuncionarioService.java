@@ -5,6 +5,7 @@ import alysondev.lanchonete.dtos.request.FuncionarioRequestDTO;
 import alysondev.lanchonete.dtos.response.FuncionarioResponseDTO;
 import alysondev.lanchonete.entity.Funcionario;
 import alysondev.lanchonete.entity.Usuario;
+import alysondev.lanchonete.enums.TipoUsuario;
 import alysondev.lanchonete.repository.FuncionarioRepository;
 import alysondev.lanchonete.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class FuncionarioService {
     private final FuncionarioRepository funcionarioRepository;
 
     public FuncionarioResponseDTO cadastrar(FuncionarioRequestDTO funcionarioRequestDTO) {
-        Usuario usuario = new Usuario(funcionarioRequestDTO.login(), funcionarioRequestDTO.senha(), "ADMIN");
+        Usuario usuario = new Usuario(funcionarioRequestDTO.login(), funcionarioRequestDTO.senha(), TipoUsuario.FUNCIONARIO);
         usuarioRepository.save(usuario);
         Funcionario funcionario = new Funcionario(funcionarioRequestDTO, usuario);
         funcionarioRepository.save(funcionario);

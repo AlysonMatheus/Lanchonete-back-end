@@ -5,6 +5,7 @@ import alysondev.lanchonete.dtos.request.ClienteRequestDTO;
 import alysondev.lanchonete.dtos.response.ClienteResponseDTO;
 import alysondev.lanchonete.entity.Cliente;
 import alysondev.lanchonete.entity.Usuario;
+import alysondev.lanchonete.enums.TipoUsuario;
 import alysondev.lanchonete.repository.ClienteRepository;
 import alysondev.lanchonete.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
@@ -26,7 +27,7 @@ public class ClienteService {
 
     @Transactional
     public ClienteResponseDTO cadastrar(ClienteRequestDTO clienteRequestDTO) {
-        Usuario usuario = new Usuario(clienteRequestDTO.login(), clienteRequestDTO.senha(), "CLIENTE");
+        Usuario usuario = new Usuario(clienteRequestDTO.login(), clienteRequestDTO.senha(), TipoUsuario.CLIENTE);
         usuarioRepository.save(usuario);
         Cliente cliente = new Cliente(clienteRequestDTO, usuario);
         clienteRepository.save(cliente);
