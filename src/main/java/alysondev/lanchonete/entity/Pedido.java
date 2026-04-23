@@ -42,7 +42,7 @@ public class Pedido {
     private Status status;
     @Column(name = "data_hora")
     private LocalDateTime dataHora;
-    @JoinColumn(name = "id_endereco")
+    @JoinColumn(name = "id_endereco", nullable = false)
     @ManyToOne
     private Endereco endereco;
 

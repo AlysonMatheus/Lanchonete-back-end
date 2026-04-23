@@ -10,6 +10,7 @@ import alysondev.lanchonete.repository.ClienteRepository;
 import alysondev.lanchonete.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,13 +23,17 @@ public class ClienteService {
 
     private final UsuarioRepository usuarioRepository;
 
-
+    private final PasswordEncoder passwordEncoder;
     private final ClienteRepository clienteRepository;
 
     @Transactional
     public ClienteResponseDTO cadastrar(ClienteRequestDTO clienteRequestDTO) {
-        Usuario usuario = new Usuario(clienteRequestDTO.login(), clienteRequestDTO.senha(), TipoUsuario.CLIENTE);
+
+        String senhaCript = passwordEncoder.encode(clienteRequestDTO.senha());
+        Usuario usuario = new Usuario(clienteRequestDTO.login(), senhaCript, TipoUsuario.CLIENTE);
+
         usuarioRepository.save(usuario);
+
         Cliente cliente = new Cliente(clienteRequestDTO, usuario);
         clienteRepository.save(cliente);
 

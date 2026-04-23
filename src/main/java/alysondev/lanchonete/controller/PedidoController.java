@@ -3,6 +3,7 @@ package alysondev.lanchonete.controller;
 import alysondev.lanchonete.dtos.request.PedidoRequestDTO;
 import alysondev.lanchonete.dtos.response.PedidoResponseDTO;
 
+import alysondev.lanchonete.dtos.response.ProdutoResponseDTO;
 import alysondev.lanchonete.services.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +25,8 @@ public class PedidoController {
         return ResponseEntity.ok(pedido);
     }
 
-    @PostMapping("/cancelar")
-    public void cancelar(@RequestBody Long id) {
+    @PatchMapping("/cancelar/{id}")
+    public void cancelar(@PathVariable Long id) {
         pedidoService.cancelarPedido(id);
     }
 
@@ -36,9 +37,15 @@ public class PedidoController {
         return ResponseEntity.ok(buscar);
     }
 
+
     @GetMapping
     public ResponseEntity<List<PedidoResponseDTO>> listarTodos() {
         var listar = pedidoService.listarTodos();
         return ResponseEntity.ok(listar);
+    }
+    @PatchMapping("/avancar/{id}")
+    public ResponseEntity<PedidoResponseDTO>avancarStatus(@PathVariable Long id){
+        var avancar = pedidoService.avancarStatus(id);
+        return ResponseEntity.ok(avancar);
     }
 }

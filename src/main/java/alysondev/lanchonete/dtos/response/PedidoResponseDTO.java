@@ -29,7 +29,9 @@ public record PedidoResponseDTO(
                 pedido.getPrecoTotal(),
                 pedido.getStatus(),
                 pedido.getDataHora(),
-                new EnderecoResponseDTO(pedido.getEndereco()),
+                pedido.getEndereco() != null
+                        ? new EnderecoResponseDTO(pedido.getEndereco())
+                        : null,
                 pedido.getItensPedidos().stream()
                         .map(ItemPedidoResponseDTO::new)
                         .toList()

@@ -41,9 +41,19 @@ public class ProdutoService {
     }
 
     public List<ProdutoResponseDTO> listar() {
-        return produtoRepository.findAllByAtivoTrue().stream().map(ProdutoResponseDTO::new).toList();
+        return produtoRepository.findAll().stream().map(ProdutoResponseDTO::new).toList();
 
 
+    }
+
+    public List<ProdutoResponseDTO> listarAtivos() {
+        return produtoRepository.findAllByAtivoTrue()
+                .stream()
+                .map(ProdutoResponseDTO::new)
+                .toList();
+    }
+    public ProdutoResponseDTO buscarPorId(Long id){
+       return  produtoRepository.findById(id).map(ProdutoResponseDTO::new).orElseThrow(()-> new RuntimeException("Produto não encontrado"+ id));
     }
 
     public ProdutoResponseDTO editar(Long id, ProdutoRequestDTO produtoRequestDTO) {
@@ -54,4 +64,5 @@ public class ProdutoService {
 
 
     }
+
 }

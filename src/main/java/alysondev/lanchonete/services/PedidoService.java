@@ -31,12 +31,10 @@ public class PedidoService {
     private final ProdutoRepository produtoRepository;
 
     private final ClienteRepository clienteRepository;
-    private  final EnderecoRepository enderecoRepository;
-
+    private final EnderecoRepository enderecoRepository;
 
 
     public PedidoResponseDTO criarPedido(PedidoRequestDTO pedidoRequestDTO) throws RuntimeException {
-
 
 
         Cliente cliente = clienteRepository.findById(pedidoRequestDTO.idCliente()).orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
@@ -45,14 +43,14 @@ public class PedidoService {
             Produto produto = produtoRepository.findById(itemDTO.getId()).orElseThrow(() -> new ProdutoNaoEncontradoException("Produto não encontrado"));
             return new ItensPedido(produto, itemDTO);
         }).toList();
-        Endereco endereco = enderecoRepository.findById(pedidoRequestDTO.idEndereco()).orElseThrow(()-> new RuntimeException("Endereco nao encontrado"));
+        Endereco endereco = enderecoRepository.findById(pedidoRequestDTO.idEndereco()).orElseThrow(() -> new RuntimeException("Endereco nao encontrado"));
         Pedido pedido = new Pedido(cliente, pedidoRequestDTO, itens, endereco);
         Pedido pedidoSalvo = pedidoRepository.save(pedido);
         return new PedidoResponseDTO(pedidoSalvo);
 
     }
-    @Transactional
 
+    @Transactional
     public void cancelarPedido(Long id) {
         Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new PedidoNaoEncontradoException("Pedido não encontrado"));
         if (pedido.getStatus() == Status.PENDENTE) {
@@ -69,9 +67,24 @@ public class PedidoService {
                 .map(PedidoResponseDTO::new).toList();
 
     }
-    public List<PedidoResponseDTO>listarTodos(){
+
+    public List<PedidoResponseDTO> listarTodos() {
         List<Pedido> pedidos = pedidoRepository.findAll();
-        return  pedidos.stream().map(PedidoResponseDTO::new).toList();
+        return pedidos.stream().map(PedidoResponseDTO::new).toList();
+    }
+
+    @Transactional
+    public PedidoResponseDTO avancarStatus(Long id) {
+        Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
+        if (pedido.getStatus() == Status.PENDENTE) {
+            pedido.setStatus(Status.EM_PREPARO);
+        } else if (pedido.getStatus() == Status.EM_PREPARO) {
+            pedido.setStatus(Status.ENTREGUE);
+        }
+
+        var pedidoSalvo = pedidoRepository.save(pedido);
+        return new PedidoResponseDTO(pedidoSalvo);
+
     }
 
 

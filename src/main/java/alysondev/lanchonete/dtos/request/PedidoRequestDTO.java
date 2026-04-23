@@ -1,6 +1,6 @@
 package alysondev.lanchonete.dtos.request;
 
-import alysondev.lanchonete.entity.ItensPedido; 
+import alysondev.lanchonete.entity.ItensPedido;
 import alysondev.lanchonete.enums.Pagamento;
 
 

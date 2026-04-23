@@ -25,16 +25,21 @@ public class ProdutoController {
         return ResponseEntity.ok(produto);
     }
 
-    @DeleteMapping("/desativar/{id}")
+    @PatchMapping("/desativar/{id}")
     public void desativar(@PathVariable Long id) {
         produtoService.desativarProduto(id);
 
     }
 
-    @PostMapping("/ativar/{id}")
+    @PatchMapping("/ativar/{id}")
     public void ativar(@PathVariable Long id) {
         produtoService.ativarProduto(id);
 
+    }
+    @GetMapping("/cardapio")
+    public ResponseEntity<List<ProdutoResponseDTO>>cardapio(){
+        List<ProdutoResponseDTO> cardapio = produtoService.listarAtivos();
+        return ResponseEntity.ok(cardapio);
     }
 
 
@@ -42,6 +47,11 @@ public class ProdutoController {
     private ResponseEntity<List<ProdutoResponseDTO>> listar() {
         var produto = produtoService.listar();
         return ResponseEntity.ok(produto);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<ProdutoResponseDTO> buscarPorId(@PathVariable Long id){
+        ProdutoResponseDTO dto = produtoService.buscarPorId(id);
+        return ResponseEntity.ok(dto);
     }
 
     @PutMapping("editar/{id}")
