@@ -13,9 +13,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Optional;
+
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
-     private final TokenConfig tokenConfig;
+    private final TokenConfig tokenConfig;
 
     public SecurityFilter(TokenConfig tokenConfig) {
         this.tokenConfig = tokenConfig;
@@ -35,8 +36,8 @@ public class SecurityFilter extends OncePerRequestFilter {
 
 
             filterChain.doFilter(request, response);
-        }else {
-            filterChain.doFilter(request,response);
+        } else {
+            filterChain.doFilter(request, response);
         }
     }
 }

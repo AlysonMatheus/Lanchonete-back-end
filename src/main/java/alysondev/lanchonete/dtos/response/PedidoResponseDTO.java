@@ -14,6 +14,7 @@ import java.util.List;
 public record PedidoResponseDTO(
         Long idPedido,
         Long idCliente,
+        String nomeCliente,
         Pagamento pagamento,
         BigDecimal precoTotal,
         Status status,
@@ -25,6 +26,7 @@ public record PedidoResponseDTO(
         this(
                 pedido.getId(),
                 pedido.getCliente().getId(),
+                pedido.getCliente().getNome(),
                 pedido.getPagamento(),
                 pedido.getPrecoTotal(),
                 pedido.getStatus(),

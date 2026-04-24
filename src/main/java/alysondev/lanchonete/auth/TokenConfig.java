@@ -15,11 +15,12 @@ import java.util.Optional;
 public class TokenConfig {
     private String secret = "secret";
 
+
     public String generateToken(Usuario usuario){
         Algorithm algorithm = Algorithm.HMAC256(secret);
       return JWT.create().withClaim("userId", usuario.getId())
               .withSubject(usuario.getLogin())
-              .withExpiresAt(Instant.now().plusSeconds(86000))
+              .withExpiresAt(Instant.now().plusSeconds(3600 ))
               .withIssuedAt(Instant.now())
               .sign(algorithm);
     }
@@ -34,7 +35,7 @@ public class TokenConfig {
 //                    .userId(decodedJWT.getClaim("userId").asLong())
 //                  .email(decodedJWT.getSubject())
 //                   .build());
-            // Em vez de usar .builder()...
+
             return Optional.of(new JWTUserData(
                     decodedJWT.getClaim("userId").asLong(),
                     decodedJWT.getSubject()
