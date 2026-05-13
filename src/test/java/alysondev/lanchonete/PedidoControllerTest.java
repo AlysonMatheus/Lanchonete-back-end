@@ -47,7 +47,7 @@ public class PedidoControllerTest {
     private MockMvc mockMvc;
 
     @Mock
-    private PedidoService pedidoService; // Único mock necessário para o Controller
+    private PedidoService pedidoService; 
 
     @InjectMocks
     private PedidoController pedidoController;
