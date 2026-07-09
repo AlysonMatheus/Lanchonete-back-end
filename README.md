@@ -27,14 +27,7 @@
 
 ---
 
-## 📦 Como Executar o Projeto
-
-### Pré-requisitos
-Antes de começar, você vai precisar ter instalado em sua máquina:
-* **JDK 17** ou superior
-* **Node.js** (versão 18 ou superior)
-* **Angular CLI**
 
 
----
+
 
