@@ -9,6 +9,7 @@ import alysondev.lanchonete.enums.TipoUsuario;
 import alysondev.lanchonete.repository.FuncionarioRepository;
 import alysondev.lanchonete.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,11 +17,15 @@ import org.springframework.stereotype.Service;
 public class FuncionarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
     private final FuncionarioRepository funcionarioRepository;
 
     public FuncionarioResponseDTO cadastrar(FuncionarioRequestDTO funcionarioRequestDTO) {
-        Usuario usuario = new Usuario(funcionarioRequestDTO.login(), funcionarioRequestDTO.senha(), TipoUsuario.FUNCIONARIO);
+         String senhaCript = passwordEncoder.encode(funcionarioRequestDTO.senha());
+        Usuario usuario = new Usuario(funcionarioRequestDTO.login(),senhaCript, TipoUsuario.FUNCIONARIO);
         usuarioRepository.save(usuario);
+
+
         Funcionario funcionario = new Funcionario(funcionarioRequestDTO, usuario);
         funcionarioRepository.save(funcionario);
         return new FuncionarioResponseDTO(funcionario);

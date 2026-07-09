@@ -1,4 +1,4 @@
-package alysondev.lanchonete;
+package alysondev.lanchonete.ControllerTest;
 
 import alysondev.lanchonete.controller.PedidoController;
 
@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-// Estáticos do Mockito
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
@@ -47,7 +47,7 @@ public class PedidoControllerTest {
     private MockMvc mockMvc;
 
     @Mock
-    private PedidoService pedidoService; 
+    private PedidoService pedidoService;
 
     @InjectMocks
     private PedidoController pedidoController;
@@ -85,8 +85,8 @@ public class PedidoControllerTest {
                 {
                     "idCliente": 1,
                     "idEndereco": 10,
-                    "pagamento": "PIX",
                     "pedidoList": []
+                    "pagamento": "PIX",
                 }
                 """;
 

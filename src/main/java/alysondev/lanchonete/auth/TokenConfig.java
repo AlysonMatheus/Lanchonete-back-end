@@ -34,7 +34,7 @@ public class TokenConfig {
 //            return Optional.of(JWTUserData.builder()
 //                    .userId(decodedJWT.getClaim("userId").asLong())
 //                  .email(decodedJWT.getSubject())
-//                   .build());
+//                   .build());0
 
             return Optional.of(new JWTUserData(
                     decodedJWT.getClaim("userId").asLong(),
