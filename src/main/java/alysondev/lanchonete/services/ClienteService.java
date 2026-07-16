@@ -28,13 +28,21 @@ public class ClienteService {
 
     @Transactional
     public ClienteResponseDTO cadastrar(ClienteRequestDTO clienteRequestDTO) {
+        if (usuarioRepository.existsByLogin(clienteRequestDTO.login())) {
+            throw new RuntimeException("Nome de login já utilizado");
+        }
 
+        if (clienteRepository.existsBycpf(clienteRequestDTO.cpf())) {
+            throw new IllegalArgumentException("CPF já registrado");
+        }
         String senhaCript = passwordEncoder.encode(clienteRequestDTO.senha());
         Usuario usuario = new Usuario(clienteRequestDTO.login(), senhaCript, TipoUsuario.CLIENTE);
+
 
         usuarioRepository.save(usuario);
 
         Cliente cliente = new Cliente(clienteRequestDTO, usuario);
+
         clienteRepository.save(cliente);
 
         return new ClienteResponseDTO(cliente);
@@ -49,9 +57,17 @@ public class ClienteService {
 
         return new ClienteResponseDTO(cliente);
     }
-    public List<ClienteResponseDTO> listar(){
-          List<Cliente> clientes  = clienteRepository.findAll();
-          return clientes.stream().map(cliente -> new ClienteResponseDTO(cliente)).collect(Collectors.toList());
+
+    public List<ClienteResponseDTO> listar() {
+        List<Cliente> clientes = clienteRepository.findAll();
+        return clientes.stream().map(cliente -> new ClienteResponseDTO(cliente)).collect(Collectors.toList());
     }
+    public boolean existeCPF(String cpf){
+        return clienteRepository.existsBycpf(cpf);
+    }
+    public boolean existeLogin(String login){
+        return usuarioRepository.existsByLogin(login);
+    }
+
 
 }

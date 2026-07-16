@@ -40,6 +40,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/login/entrar").permitAll()
                         .requestMatchers(HttpMethod.GET, "/produto/cardapio").permitAll()
                         .requestMatchers(HttpMethod.POST, "/cliente/cadastrar").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/cliente/existeCPF").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/cliente/existeLogin").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

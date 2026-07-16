@@ -77,12 +77,15 @@ public class PedidoService {
     public PedidoResponseDTO avancarStatus(Long id) {
         Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
         if (pedido.getStatus() == Status.PENDENTE) {
+            pedido.setStatus(Status.CONFIRMADO);
+        }  if (pedido.getStatus() == Status.CONFIRMADO) {
             pedido.setStatus(Status.EM_PREPARO);
-        }  if (pedido.getStatus() == Status.EM_PREPARO) {
+        }else if (pedido.getStatus() == Status.EM_PREPARO){
             pedido.setStatus(Status.EM_ROTA);
-        }else if (pedido.getStatus() == Status.EM_ROTA){
+        } else if (pedido.getStatus() == Status.EM_ROTA) {
             pedido.setStatus(Status.ENTREGUE);
         }
+
 
         var pedidoSalvo = pedidoRepository.save(pedido);
         return new PedidoResponseDTO(pedidoSalvo);
