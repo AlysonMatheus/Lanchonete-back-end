@@ -78,7 +78,7 @@ public class PedidoService {
         Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
         if (pedido.getStatus() == Status.PENDENTE) {
             pedido.setStatus(Status.CONFIRMADO);
-        }  if (pedido.getStatus() == Status.CONFIRMADO) {
+        }  else if (pedido.getStatus() == Status.CONFIRMADO) {
             pedido.setStatus(Status.EM_PREPARO);
         }else if (pedido.getStatus() == Status.EM_PREPARO){
             pedido.setStatus(Status.EM_ROTA);
