@@ -22,8 +22,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 
 @DataJpaTest
 @Import(ContainerTestConfiguration.class)
@@ -73,5 +71,35 @@ public class PedidoRepositoryTest {
         assertThat(resultado.get(0).getId()).isEqualTo(pedido.getId());
 
 
+    }
+    @Test
+    void deveListarTodosOsPedidos(){
+        Usuario usuario = new Usuario();
+
+        Cliente cliente = new Cliente();
+        cliente.setCpf("46656789001");
+        cliente.setNome("Alyson Matheus");
+        cliente.setCelular("18998230045");
+        cliente.setUsuario(usuario);
+        usuarioRepository.save(usuario);
+        clienteRepository.save(cliente);
+
+        Endereco endereco = new Endereco();
+        enderecoRepository.save(endereco);
+
+        Pedido pedido = new Pedido();
+        pedido.setCliente(cliente);
+        pedido.setItensPedidos(List.of());
+        pedido.setStatus(Status.PENDENTE);
+        pedido.setDataHora(LocalDateTime.now());
+        pedido.setEndereco(endereco);
+        pedido.setPrecoTotal(BigDecimal.valueOf(10));
+        pedido.setPagamento(Pagamento.CREDITO);
+
+        pedidoRepository.save(pedido);
+
+        List<Pedido> listar = pedidoRepository.findAll();
+        assertThat(listar).isNotEmpty();
+        assertThat(listar).hasSize(1);
     }
 }
