@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL;
+
 
 @SpringBootTest
 public class TokenConfigTest {
@@ -55,14 +55,8 @@ public class TokenConfigTest {
     }
     @Test
     void deveRetornarVazioQuandoTokenInvalido() {
-        Usuario usuario = new Usuario();
-        usuario.setId(12L);
-        usuario.setLogin("Alyson");
-        String token = tokenConfig.generateToken(usuario);
-
         Optional<JWTUserData> resultado = tokenConfig.validateToken("token-invalido-123");
-
-       assertThat(resultado).isEmpty();
+        assertThat(resultado).isEmpty();
 
     }
 
