@@ -15,11 +15,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -64,4 +67,29 @@ public class LoginServiceTest {
         assertThat(resultado.token()).isEqualTo("token-fake-123");
         assertThat(resultado.idOrigem()).isEqualTo(99L);
     }
+    @Test
+    void deveLancarExcecaoQuandoCredenciaisInvalidas(){
+
+            Usuario usuario = new Usuario();
+            usuario.setId(1L);
+            usuario.setLogin("Cristiano");
+            usuario.setSenha("12345");
+            usuario.setTipo(TipoUsuario.CLIENTE);
+            Authentication authenticationFake = new UsernamePasswordAuthenticationToken(usuario, null, null);
+
+            Cliente cliente = new Cliente();
+            cliente.setId(99L);
+
+            when(authenticationManager.authenticate(any())).thenThrow(new BadCredentialsException("Credenciais Invalidas"));
+            when(tokenConfig.generateToken(usuario)).thenReturn("token-fake-123");
+            when(clienteRepository.findByUsuarioId(usuario.getId())).thenReturn(Optional.of(cliente));
+
+            LoginRequestDTO loginRequestDTO = new LoginRequestDTO("Cristiano", "123456");
+
+
+
+             assertThrows(BadCredentialsException.class,()-> loginService.login(loginRequestDTO));
+
+        }
+
 }
