@@ -67,29 +67,16 @@ public class LoginServiceTest {
         assertThat(resultado.token()).isEqualTo("token-fake-123");
         assertThat(resultado.idOrigem()).isEqualTo(99L);
     }
+
     @Test
-    void deveLancarExcecaoQuandoCredenciaisInvalidas(){
+    void deveLancarExcecaoQuandoCredenciaisInvalidas() {
+        when(authenticationManager.authenticate(any())).thenThrow(new BadCredentialsException("Credenciais Invalidas"));
 
-            Usuario usuario = new Usuario();
-            usuario.setId(1L);
-            usuario.setLogin("Cristiano");
-            usuario.setSenha("12345");
-            usuario.setTipo(TipoUsuario.CLIENTE);
-            Authentication authenticationFake = new UsernamePasswordAuthenticationToken(usuario, null, null);
+        LoginRequestDTO loginRequestDTO = new LoginRequestDTO("Cristiano", "123456");
 
-            Cliente cliente = new Cliente();
-            cliente.setId(99L);
-
-            when(authenticationManager.authenticate(any())).thenThrow(new BadCredentialsException("Credenciais Invalidas"));
-            when(tokenConfig.generateToken(usuario)).thenReturn("token-fake-123");
-            when(clienteRepository.findByUsuarioId(usuario.getId())).thenReturn(Optional.of(cliente));
-
-            LoginRequestDTO loginRequestDTO = new LoginRequestDTO("Cristiano", "123456");
+        assertThrows(BadCredentialsException.class, () -> loginService.login(loginRequestDTO));
 
 
-
-             assertThrows(BadCredentialsException.class,()-> loginService.login(loginRequestDTO));
-
-        }
+    }
 
 }
