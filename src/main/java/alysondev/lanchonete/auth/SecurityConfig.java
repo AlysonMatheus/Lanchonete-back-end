@@ -42,6 +42,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/cliente/cadastrar").permitAll()
                         .requestMatchers(HttpMethod.GET,"/cliente/existeCPF").permitAll()
                         .requestMatchers(HttpMethod.GET,"/cliente/existeLogin").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/webhooks/mercadopago").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

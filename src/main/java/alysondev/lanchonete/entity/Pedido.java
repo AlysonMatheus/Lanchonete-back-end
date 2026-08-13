@@ -1,9 +1,9 @@
 package alysondev.lanchonete.entity;
 
-import alysondev.lanchonete.dtos.request.EnderecoRequestDTO;
 import alysondev.lanchonete.dtos.request.PedidoRequestDTO;
 import alysondev.lanchonete.enums.Pagamento;
 import alysondev.lanchonete.enums.Status;
+import alysondev.lanchonete.payment.StatusPagamento;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -45,6 +45,8 @@ public class Pedido {
     @JoinColumn(name = "id_endereco", nullable = false)
     @ManyToOne
     private Endereco endereco;
+    @Enumerated(EnumType.STRING)
+    private StatusPagamento statusPagamento;
 
     public Pedido(Cliente cliente, PedidoRequestDTO pedidoRequestDTO, List<ItensPedido> itensPedidos, Endereco endereco) {
 
@@ -53,6 +55,7 @@ public class Pedido {
         this.setDataHora(LocalDateTime.now());
         this.setItensPedidos(itensPedidos);
         this.setStatus(Status.PENDENTE);
+        this.setStatusPagamento(StatusPagamento.PENDENTE);
         this.setEndereco(endereco);
 
         itensPedidos.stream().forEach(i -> i.setPedido(this));

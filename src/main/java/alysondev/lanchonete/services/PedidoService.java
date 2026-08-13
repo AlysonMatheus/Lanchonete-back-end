@@ -91,6 +91,28 @@ public class PedidoService {
         return new PedidoResponseDTO(pedidoSalvo);
 
     }
+    @Transactional
+    public void marcadoComoPago(Long pedidoId){
+        Pedido pedido = pedidoRepository.findById(pedidoId).orElseThrow(()-> new RuntimeException("Pedido não encontrado"));
+
+       if(pedido.getStatus() == Status.PAGO){
+
+       return;
+
+        }
+        pedido.setStatus(Status.PAGO);
+       pedidoRepository.save(pedido);
+    }
+
+    public void marcadoComoFalhou(Long pedidoId){
+        Pedido pedido = pedidoRepository.findById(pedidoId).orElseThrow(()-> new RuntimeException("Pedido não encontrado"));
+        pedido.setStatus(Status.CANCELADO);
+        pedidoRepository.save(pedido);
+
+
+
+    }
+
 
 
 }

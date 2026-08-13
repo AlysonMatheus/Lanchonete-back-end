@@ -4,5 +4,6 @@ public record LoginResponseDTO(
         String nome,
         String tipo,
         Long idOrigem,
-        String token
+        String token,
+        String refreshToken
 ) {}
