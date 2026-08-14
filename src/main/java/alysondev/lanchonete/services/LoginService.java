@@ -1,6 +1,7 @@
 package alysondev.lanchonete.services;
 
 
+import alysondev.lanchonete.auth.RefreshResponseDTO;
 import alysondev.lanchonete.auth.RefreshToken;
 import alysondev.lanchonete.auth.TokenConfig;
 import alysondev.lanchonete.dtos.request.LoginRequestDTO;
@@ -67,6 +68,17 @@ public class LoginService {
 
 
         return new LoginResponseDTO(usuario.getLogin(), usuario.getTipo().name(), cliente.getId(), token, refreshToken);
+    }
+    public RefreshResponseDTO refresh(String refreshTokenString){
+        RefreshToken refreshToken = refreshTokenRepository.findByToken(refreshTokenString).orElseThrow(()-> new RuntimeException("esse token não existe"));
+        if (refreshToken.getDataExpiracao().isBefore(Instant.now())) {
+            refreshTokenRepository.delete(refreshToken);
+            throw new RuntimeException("Token expirado");
+
+        }
+     Usuario usuario =refreshToken.getUsuario();
+        String novoAccessToken = tokenConfig.generateToken(usuario);
+        return new RefreshResponseDTO(novoAccessToken);
     }
 
 

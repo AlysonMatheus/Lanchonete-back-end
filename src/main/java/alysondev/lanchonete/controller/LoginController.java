@@ -1,9 +1,12 @@
 package alysondev.lanchonete.controller;
 
 
+import alysondev.lanchonete.auth.RefreshRequestDTO;
+import alysondev.lanchonete.auth.RefreshResponseDTO;
 import alysondev.lanchonete.dtos.request.LoginRequestDTO;
 import alysondev.lanchonete.dtos.response.LoginResponseDTO;
 import alysondev.lanchonete.services.LoginService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +27,12 @@ public class LoginController{
         }catch (RuntimeException e){
              return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
+    }
+    @PostMapping("/refresh")
+    public ResponseEntity<RefreshResponseDTO>refresh(@RequestBody RefreshRequestDTO refreshRequestDTO){
+    String refreshToken = refreshRequestDTO.refreshToken();
+    RefreshResponseDTO responseDTO = loginService.refresh(refreshToken);
+    return ResponseEntity.ok(responseDTO);
     }
 
 }
