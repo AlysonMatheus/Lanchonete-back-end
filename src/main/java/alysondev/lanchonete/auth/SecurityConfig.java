@@ -43,6 +43,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/cliente/existeCPF").permitAll()
                         .requestMatchers(HttpMethod.GET,"/cliente/existeLogin").permitAll()
                         .requestMatchers(HttpMethod.POST,"/webhooks/mercadopago").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/produto/adicionar").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT,"/produto/editar/").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH,"/produto/ativar/").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH,"/produto/desativar/").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

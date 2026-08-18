@@ -19,8 +19,8 @@ public class RefreshToken {
     @Column(name = "token")
     private String token;
     @ManyToOne
-    @Column(name = "id_usuario")
+    @JoinColumn(name = "id_usuario")
     private Usuario usuario;
-     @Column(name = "data_expiração")
+     @Column(name = "data_expiracao")
     private Instant dataExpiracao;
 }
