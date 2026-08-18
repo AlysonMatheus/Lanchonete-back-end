@@ -69,7 +69,7 @@ public class PedidoService {
     }
 
     public List<PedidoResponseDTO> listarTodos() {
-        List<Pedido> pedidos = pedidoRepository.findAll();
+        List<Pedido> pedidos = pedidoRepository.findAllComRelacionamentos();
         return pedidos.stream().map(PedidoResponseDTO::new).toList();
     }
 
