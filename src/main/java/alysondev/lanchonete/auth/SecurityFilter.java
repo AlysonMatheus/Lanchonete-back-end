@@ -1,5 +1,7 @@
 package alysondev.lanchonete.auth;
 
+import alysondev.lanchonete.entity.Usuario;
+import alysondev.lanchonete.repository.UsuarioRepository;
 import com.auth0.jwt.JWT;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -17,9 +19,11 @@ import java.util.Optional;
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
     private final TokenConfig tokenConfig;
+    private final UsuarioRepository usuarioRepository;
 
-    public SecurityFilter(TokenConfig tokenConfig) {
+    public SecurityFilter(TokenConfig tokenConfig, UsuarioRepository usuarioRepository) {
         this.tokenConfig = tokenConfig;
+        this.usuarioRepository = usuarioRepository;
     }
 
     @Override
@@ -28,9 +32,11 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (Strings.isNotEmpty(authorizedHeader) && authorizedHeader.startsWith("Bearer ")) {
             String token = authorizedHeader.substring("Bearer ".length());
             Optional<JWTUserData> optUser = tokenConfig.validateToken(token);
+
             if (optUser.isPresent()) {
                 JWTUserData userData = optUser.get();
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userData, null, null);
+                Usuario usuario = usuarioRepository.findById(userData.id()).orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
 
