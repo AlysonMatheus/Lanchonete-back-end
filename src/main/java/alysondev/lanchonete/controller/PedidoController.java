@@ -26,8 +26,9 @@ public class PedidoController {
     }
 
     @PatchMapping("/cancelar/{id}")
-    public void cancelar(@PathVariable Long id) {
-        pedidoService.cancelarPedido(id);
+    public ResponseEntity<Void> cancelar(@PathVariable Long id) {
+         pedidoService.cancelarPedido(id);
+         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/listar/{id}")
