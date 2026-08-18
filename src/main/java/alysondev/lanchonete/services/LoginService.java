@@ -69,7 +69,7 @@ public class LoginService {
 
         return new LoginResponseDTO(usuario.getLogin(), usuario.getTipo().name(), cliente.getId(), token, refreshToken);
     }
-    public RefreshResponseDTO refresh(String refreshTokenString){
+    public RefreshResponseDTO generateRefreshToken(String refreshTokenString){
         RefreshToken refreshToken = refreshTokenRepository.findByToken(refreshTokenString).orElseThrow(()-> new RuntimeException("esse token não existe"));
         if (refreshToken.getDataExpiracao().isBefore(Instant.now())) {
             refreshTokenRepository.delete(refreshToken);
