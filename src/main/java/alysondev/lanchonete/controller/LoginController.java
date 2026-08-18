@@ -6,7 +6,6 @@ import alysondev.lanchonete.auth.RefreshResponseDTO;
 import alysondev.lanchonete.dtos.request.LoginRequestDTO;
 import alysondev.lanchonete.dtos.response.LoginResponseDTO;
 import alysondev.lanchonete.services.LoginService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +30,7 @@ public class LoginController{
     @PostMapping("/refresh")
     public ResponseEntity<RefreshResponseDTO>refresh(@RequestBody RefreshRequestDTO refreshRequestDTO){
     String refreshToken = refreshRequestDTO.refreshToken();
-    RefreshResponseDTO responseDTO = loginService.refresh(refreshToken);
+    RefreshResponseDTO responseDTO = loginService.generateRefreshToken(refreshToken);
     return ResponseEntity.ok(responseDTO);
     }
 
