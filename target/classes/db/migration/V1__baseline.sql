@@ -1,0 +1,3 @@
+-- V1__baseline.sql
+-- Estado inicial do banco, documentado como ponto de partida do Flyway.
+-- As tabelas já existiam antes da adoção do Flyway neste projeto.

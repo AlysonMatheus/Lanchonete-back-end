@@ -11,7 +11,6 @@ import alysondev.lanchonete.execption.ProdutoNaoEncontradoException;
 import alysondev.lanchonete.repository.ClienteRepository;
 import alysondev.lanchonete.repository.EnderecoRepository;
 import alysondev.lanchonete.repository.PedidoRepository;
-
 import alysondev.lanchonete.repository.ProdutoRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +32,7 @@ public class PedidoService {
     private final ClienteRepository clienteRepository;
     private final EnderecoRepository enderecoRepository;
 
-
+    @Transactional
     public PedidoResponseDTO criarPedido(PedidoRequestDTO pedidoRequestDTO) throws RuntimeException {
 
 
@@ -78,9 +77,9 @@ public class PedidoService {
         Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
         if (pedido.getStatus() == Status.PENDENTE) {
             pedido.setStatus(Status.CONFIRMADO);
-        }  else if (pedido.getStatus() == Status.CONFIRMADO) {
+        } else if (pedido.getStatus() == Status.CONFIRMADO) {
             pedido.setStatus(Status.EM_PREPARO);
-        }else if (pedido.getStatus() == Status.EM_PREPARO){
+        } else if (pedido.getStatus() == Status.EM_PREPARO) {
             pedido.setStatus(Status.EM_ROTA);
         } else if (pedido.getStatus() == Status.EM_ROTA) {
             pedido.setStatus(Status.ENTREGUE);
@@ -91,28 +90,27 @@ public class PedidoService {
         return new PedidoResponseDTO(pedidoSalvo);
 
     }
+
     @Transactional
-    public void marcadoComoPago(Long pedidoId){
-        Pedido pedido = pedidoRepository.findById(pedidoId).orElseThrow(()-> new RuntimeException("Pedido não encontrado"));
+    public void marcadoComoPago(Long pedidoId) {
+        Pedido pedido = pedidoRepository.findById(pedidoId).orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
 
-       if(pedido.getStatus() == Status.PAGO){
+        if (pedido.getStatus() == Status.PAGO) {
 
-       return;
+            return;
 
         }
         pedido.setStatus(Status.PAGO);
-       pedidoRepository.save(pedido);
+        pedidoRepository.save(pedido);
     }
 
-    public void marcadoComoFalhou(Long pedidoId){
-        Pedido pedido = pedidoRepository.findById(pedidoId).orElseThrow(()-> new RuntimeException("Pedido não encontrado"));
+    public void marcadoComoFalhou(Long pedidoId) {
+        Pedido pedido = pedidoRepository.findById(pedidoId).orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
         pedido.setStatus(Status.CANCELADO);
         pedidoRepository.save(pedido);
 
 
-
     }
-
 
 
 }

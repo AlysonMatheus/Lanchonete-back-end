@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:16
+    container_name: lanchonete-db
+    environment:
+      POSTGRES_DB: lanchonete
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: preto321
+    ports:
+      - "5433:5432"
+    volumes:
+      - lanchonete-data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: lanchonete-app
+    depends_on:
+      - db
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/lanchonete
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: preto321
+    ports:
+      - "8081:8081"
+
+  frontend:
+    build: ../../lanchonete-front
+    container_name: lanchonete-frontend
+    depends_on:
+      - app
+    ports:
+      - "4200:80"
+
+volumes:
+  lanchonete-data:
