@@ -9,6 +9,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
     services:
       postgres:
         image: postgres:16
@@ -38,5 +39,7 @@ jobs:
         env:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           MERCADOPAGO_ACCESS_TOKEN: ${{ secrets.MERCADOPAGO_TOKEN }}
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/lanchonete
+          SPRING_DATASOURCE_USERNAME: postgres
           SPRING_DATASOURCE_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: mvn test
