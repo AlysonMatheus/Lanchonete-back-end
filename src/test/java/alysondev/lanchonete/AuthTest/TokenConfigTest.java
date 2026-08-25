@@ -7,6 +7,8 @@ import alysondev.lanchonete.entity.Cliente;
 import alysondev.lanchonete.entity.Usuario;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
@@ -14,7 +16,8 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
+
 public class TokenConfigTest {
 
     private TokenConfig tokenConfig;
