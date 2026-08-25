@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
 
@@ -25,6 +26,7 @@ public class TokenConfigTest {
     @BeforeEach
     void setUp() {
         tokenConfig = new TokenConfig();
+        ReflectionTestUtils.setField(tokenConfig, "secret", "secret-de-test");
     }
 @Test
     void deveGerarTokenValido() {
