@@ -34,20 +34,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
-
 public class ClienteControllerTest {
     private MockMvc mockMvc;
 
     @InjectMocks
     private ClienteController clienteController;
 
-
     @Mock
     private ClienteService clienteService;
-
-    @Mock
-    private Usuario usuario;
-
 
     @BeforeEach
     void setUp() {
@@ -60,29 +54,28 @@ public class ClienteControllerTest {
     @Test
     void CriarCliente() throws Exception {
         ClienteResponseDTO cliente = new ClienteResponseDTO(1L, "Alyson", "Alyson", "Sucesso");
-        Usuario usuario = new Usuario(1L, "Alyson", "aaaa", TipoUsuario.FUNCIONARIO);
 
         when(clienteService.cadastrar(any(ClienteRequestDTO.class))).thenReturn(cliente);
 
         String jsonRequest = """
-                {
-                "id":1,
-                "nome":"Alyson",
-                "login":"Alyson",
-                "mensagem": "Sucesso"
-                }
-                """;
+        {
+            "nome": "Alyson",
+            "cpf": "12345678900",
+            "celular": "18999999999",
+            "login": "Alyson",
+            "senha": "123456"
+        }
+        """;
+
         mockMvc.perform(post("/cliente/cadastrar")
-                        .contentType(MediaType.APPLICATION_JSON).
-                        content(jsonRequest))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.idCliente").value(1))
+                .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.nome").value("Alyson"))
                 .andExpect(jsonPath("$.login").value("Alyson"))
                 .andExpect(jsonPath("$.mensagem").value("Sucesso"));
 
         verify(clienteService, times(1)).cadastrar(any(ClienteRequestDTO.class));
     }
-
-
 }

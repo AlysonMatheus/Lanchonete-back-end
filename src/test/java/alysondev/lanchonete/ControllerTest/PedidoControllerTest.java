@@ -85,8 +85,8 @@ public class PedidoControllerTest {
                 {
                     "idCliente": 1,
                     "idEndereco": 10,
-                    "pedidoList": []
-                    "pagamento": "PIX",
+                    "pedidoList": [],
+                    "pagamento": "PIX"
                 }
                 """;
 
