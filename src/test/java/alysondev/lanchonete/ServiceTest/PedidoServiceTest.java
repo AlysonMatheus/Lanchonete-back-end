@@ -185,7 +185,7 @@ public class PedidoServiceTest {
 
     }
     @Test
-    void  deveListarTodosOsPedido(){
+    void deveListarTodosOsPedido() {
         Cliente clienteFake = new Cliente();
         clienteFake.setId(22L);
 
@@ -194,14 +194,13 @@ public class PedidoServiceTest {
         pedido.setCliente(clienteFake);
         pedido.setItensPedidos(List.of());
 
-        List<Pedido> pedidos =List.of(pedido);
-        when(pedidoRepository.findAll()).thenReturn(pedidos);
+        List<Pedido> pedidos = List.of(pedido);
+        when(pedidoRepository.findAllComRelacionamentos()).thenReturn(pedidos);
         List<PedidoResponseDTO> resultado = pedidoService.listarTodos();
 
         assertNotNull(resultado);
         assertEquals(1, resultado.size());
-        verify(pedidoRepository, times(1)).findAll();
-
+        verify(pedidoRepository, times(1)).findAllComRelacionamentos();
     }
     @Test
     void deveListarPedidosPorCliente(){
