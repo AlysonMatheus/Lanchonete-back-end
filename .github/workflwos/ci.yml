@@ -42,4 +42,4 @@ jobs:
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/lanchonete
           SPRING_DATASOURCE_USERNAME: postgres
           SPRING_DATASOURCE_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          run: mvn test -Dtest='!LanchoneteApplicationTests'
+          run: mvn test
