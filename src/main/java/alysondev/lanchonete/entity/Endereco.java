@@ -36,11 +36,11 @@ public class Endereco {
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
 
-    public Endereco(EnderecoRequestDTO enderecoResponseDTO, Cliente cliente) {
-        this.rua = enderecoResponseDTO.rua();
-        this.bairro = enderecoResponseDTO.bairro();
-        this.cidade = enderecoResponseDTO.cidade();
-        this.numero = enderecoResponseDTO.numero();
+    public Endereco(EnderecoRequestDTO enderecoRequestDTO, Cliente cliente) {
+        this.rua = enderecoRequestDTO.rua();
+        this.bairro = enderecoRequestDTO.bairro();
+        this.cidade = enderecoRequestDTO.cidade();
+        this.numero = enderecoRequestDTO.numero();
         this.cliente = cliente;
 
     }
